@@ -1,58 +1,38 @@
 # Radiant Honeypot
 
-A Discord bot that catches compromised accounts by monitoring honeypot channels. When a user messages in a honeypot channel, the bot kicks them and deletes their recent messages across the server.
+Catches compromised accounts before they spam your server. Set up a bait channel, and anyone who messages in it gets kicked + their messages wiped.
 
 ## Setup
 
-1. Create a Discord application at https://discord.com/developers/applications
-2. Enable the bot and get your token
-3. Enable these privileged intents:
+1. Create a bot at https://discord.com/developers/applications
+2. Grab your token and enable these intents:
    - Message Content Intent
    - Server Members Intent
 
-4. Invite the bot with these permissions:
-   - Kick Members
-   - Manage Messages
-   - Read Message History
-   - Send Messages
-   - View Channels
+3. Invite with permissions: Kick Members, Manage Messages, Read Message History, Send Messages, View Channels
 
-5. Install dependencies:
-```
-npm install
-```
+4. `npm install`
 
-6. Create a `.env` file (copy from `.env.example`):
+5. Make a `.env` file:
 ```
-DISCORD_TOKEN=your_bot_token_here
-HONEYPOT_CHANNELS=1234567890,0987654321
-LOG_CHANNEL_ID=your_log_channel_id
+DISCORD_TOKEN=your_token
+HONEYPOT_CHANNELS=channel_id,another_channel_id
+LOG_CHANNEL_ID=where_to_log
 DELETE_MESSAGE_COUNT=100
 DELETE_MESSAGE_AGE=86400000
 ```
 
-7. Run the bot:
-```
-npm start
-```
+6. `npm start`
 
-## Configuration
+## Config
 
-| Variable | Description |
-|----------|-------------|
-| DISCORD_TOKEN | Your bot token |
-| HONEYPOT_CHANNELS | Comma-separated channel IDs to monitor |
-| LOG_CHANNEL_ID | Channel where kicks are logged |
-| DELETE_MESSAGE_COUNT | Max messages to fetch per channel (default: 100) |
-| DELETE_MESSAGE_AGE | Max message age in ms to delete (default: 24 hours) |
+- `HONEYPOT_CHANNELS` - channel IDs to monitor, comma separated
+- `LOG_CHANNEL_ID` - where kick logs go
+- `DELETE_MESSAGE_COUNT` - how many messages to scan per channel (default 100)
+- `DELETE_MESSAGE_AGE` - only delete messages newer than this in ms (default 24h)
 
-## How It Works
+## Usage
 
-1. Create a channel with a tempting name (e.g., "free-nitro", "giveaways")
-2. Set up a message warning legitimate users not to chat
-3. Compromised accounts running spam scripts will message regardless
-4. The bot kicks them instantly and cleans up their messages
+Make a channel called something like "free-nitro" or "giveaways". Pin a message telling real users not to type there. Compromised accounts running mass-DM scripts ignore warnings and message anyway. Bot catches them, kicks, cleans up.
 
-## Required Bot Permissions
-
-The bot needs to be placed higher in the role hierarchy than regular members to kick them.
+Bot role needs to be above regular member roles to kick.
